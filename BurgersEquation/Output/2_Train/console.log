@@ -1,0 +1,10 @@
+2025-10-11 20:52:47,214 - INFO - Usando dispositivo: cuda
+2025-10-11 20:52:48,277 - INFO - Epoch 0 - Loss: 8.75e-01 - Time: 0.21s
+2025-10-11 20:53:02,858 - INFO - Epoch 250 - Loss: 5.72e-01 - Time: 14.58s
+2025-10-11 20:53:17,506 - INFO - Epoch 500 - Loss: 8.59e-01 - Time: 14.65s
+2025-10-11 20:53:32,189 - INFO - Epoch 750 - Loss: 8.59e-01 - Time: 14.68s
+2025-10-11 20:53:46,793 - INFO - Epoch 1000 - Loss: 8.59e-01 - Time: 14.60s
+2025-10-11 20:54:01,379 - INFO - Epoch 1250 - Loss: 8.59e-01 - Time: 14.59s
+2025-10-11 20:54:15,998 - INFO - Epoch 1500 - Loss: 8.59e-01 - Time: 14.62s
+2025-10-11 20:54:30,617 - INFO - Epoch 1750 - Loss: 8.59e-01 - Time: 14.62s
+2025-10-11 20:54:45,233 - INFO - Epoch 2000 - Loss: 8.59e-01 - Time: 14.62s
