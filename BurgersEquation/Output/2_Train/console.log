@@ -1,8 +1,15 @@
-2025-10-24 11:51:02,899 - INFO - Usando dispositivo: cuda
-2025-10-24 11:51:04,042 - INFO - Estrutura da rede: [2] + [40]*10 + [1]
-2025-10-24 11:51:04,042 - INFO - Total de parâmetros: 14921
-2025-10-24 11:51:04,042 - INFO - Tamanho do treino: torch.Size([6600, 2])
-2025-10-24 11:51:04,042 - INFO - n_ci: 200
-2025-10-24 11:51:04,042 - INFO - Primeiros 3*n_ci pontos são condições de contorno
-2025-10-24 11:51:04,169 - INFO - Predição inicial (CI): min=-0.1648, max=0.1280, mean=-0.0195
-2025-10-24 11:51:04,169 - INFO - Target (CI): min=-0.9999, max=0.9997, mean=0.0001
+2025-10-24 14:14:04,300 - INFO - Usando dispositivo: cuda
+2025-10-24 14:14:05,316 - INFO - Epoch 0 - Loss: 5.81e-01 - Time: 0.19s
+2025-10-24 14:14:15,581 - INFO - Epoch 250 - Loss: 3.31e-01 - Time: 10.26s
+2025-10-24 14:14:25,866 - INFO - Epoch 500 - Loss: 2.64e-01 - Time: 10.28s
+2025-10-24 14:14:36,168 - INFO - Epoch 750 - Loss: 2.17e-01 - Time: 10.30s
+2025-10-24 14:14:46,431 - INFO - Epoch 1000 - Loss: 2.21e-01 - Time: 10.26s
+2025-10-24 14:14:56,674 - INFO - Epoch 1250 - Loss: 2.19e-01 - Time: 10.24s
+2025-10-24 14:15:06,916 - INFO - Epoch 1500 - Loss: 2.18e-01 - Time: 10.24s
+2025-10-24 14:15:17,195 - INFO - Epoch 1750 - Loss: 2.18e-01 - Time: 10.28s
+2025-10-24 14:15:27,483 - INFO - Epoch 2000 - Loss: 2.18e-01 - Time: 10.29s
+2025-10-24 14:15:37,771 - INFO - Epoch 2250 - Loss: 2.25e-01 - Time: 10.29s
+2025-10-24 14:15:48,059 - INFO - Epoch 2500 - Loss: 2.22e-01 - Time: 10.29s
+2025-10-24 14:15:58,346 - INFO - Epoch 2750 - Loss: 2.21e-01 - Time: 10.29s
+2025-10-24 14:16:08,633 - INFO - Epoch 3000 - Loss: 2.17e-01 - Time: 10.29s
+2025-10-24 14:16:09,031 - INFO - Process Finished.

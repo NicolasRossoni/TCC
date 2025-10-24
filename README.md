@@ -1,6 +1,8 @@
 # TCC
 
-Rodar tudo com sbatch run.sh {FILEPATH}
+Rodar tudo com "sbatch run.sh {FILE_PATH}"
+
+E encerrar um script com "scancel {job_ID}"
 
 ## Problmeas resolvidos
 

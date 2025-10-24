@@ -37,8 +37,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Garantir precisão float32 em todos os tensores PyTorch
-tc.set_default_dtype(tc.float32)
+# Garantir precisão float64 em todos os tensores PyTorch
+tc.set_default_dtype(tc.float64)
 
 # Detecção de GPU
 device = tc.device('cuda' if tc.cuda.is_available() else 'cpu')
@@ -52,7 +52,7 @@ tc.manual_seed(21)
 
 class PINN(nn.Module):
 
-    def __init__(self, structure=[1, 10, 10, 1], activation=nn.Tanh()):
+    def __init__(self, structure=[1, 10, 10, 1], activation=nn.ReLU()):
         super(PINN, self).__init__()
         self.structure = structure
         self.activation = activation
@@ -88,7 +88,7 @@ metadata2 = tc.load('BurgersEquation/Output/2_Train/Data/metadata.pt')
 hidden_layers = metadata2['hidden_layers']
 neurons_per_layer = metadata2['neurons_per_layer']
 
-f = PINN(structure=[2] + [neurons_per_layer] * hidden_layers + [1], activation=nn.Tanh()).to(device)
+f = PINN(structure=[2] + [neurons_per_layer] * hidden_layers + [1], activation=nn.ReLU()).to(device)
 f.load_state_dict(pinn_state)
 
 ### ======================================== ###
@@ -115,7 +115,7 @@ t_grid_1d = np.linspace(t_min, t_max, nt_grid)
 t_grid, x_grid = np.meshgrid(t_grid_1d, x_grid_1d, indexing='ij')
 
 # Criar tensor de pontos para predição
-pts_grid = tc.tensor(np.stack([x_grid.flatten(), t_grid.flatten()], axis=1), dtype=tc.float32, device=device)
+pts_grid = tc.tensor(np.stack([x_grid.flatten(), t_grid.flatten()], axis=1), dtype=tc.float64, device=device)
 with tc.no_grad():
     u_pred_grid = f(pts_grid).cpu().numpy().reshape(nt_grid, nx_grid)
 
@@ -129,7 +129,7 @@ dt = t_ref[1] - t_ref[0]
 nu = 0.01 / np.pi
 
 # Inicialização da solução na malha regular
-u_ref = np.zeros((nt, nx), dtype=np.float32)
+u_ref = np.zeros((nt, nx), dtype=np.float64)
 u_ref[0, :] = -np.sin(np.pi * x_ref)
 
 # Função RHS de Burgers (diferenças centrais)
@@ -204,3 +204,5 @@ for i, t_val in enumerate(t_perfis):
 fig.legend(handles, labels, loc='lower center', ncol=2, bbox_to_anchor=(0.5, -0.02), frameon=True)
 
 plt.savefig('BurgersEquation/Output/3_Validate/Images/Comparison.png')
+
+logger.info('Process Finished.')

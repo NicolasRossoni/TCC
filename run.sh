@@ -4,7 +4,7 @@
 
 if [ -z "$1" ]; then
     echo "Erro: Forneça o caminho do arquivo Python como argumento"
-    echo "Exemplo: sbatch run.sh \$FILE_PATH [cleanup]"
+    echo "Exemplo: sbatch run.sh \$FILE_PATH cleanup"
     exit 1
 fi
 
@@ -20,3 +20,6 @@ fi
 if [ "$do_cleanup" = true ]; then
     rm -f /home/exx/users/nicolas/TCC/slurm-*.out
 fi
+
+# PARA ENCERRAR O SCRIPT:
+# scancel <JOBID>

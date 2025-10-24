@@ -30,8 +30,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Garantir precisão float32 em todos os tensores PyTorch
-tc.set_default_dtype(tc.float32)
+# Garantir precisão float64 em todos os tensores PyTorch
+tc.set_default_dtype(tc.float64)
 
 # Detecção de GPU
 device = tc.device('cuda' if tc.cuda.is_available() else 'cpu')
@@ -43,7 +43,7 @@ if tc.cuda.is_available():
         dummy_tensor = tc.tensor([1.0], device=device)
         _ = dummy_tensor * 2.0  # Simple operation to establish CUDA context
 
-tc.manual_seed(21)
+tc.manual_seed(22)
 
 ### ======================================== ###
 ###            Definindo PINN                ###
@@ -51,7 +51,7 @@ tc.manual_seed(21)
 
 class PINN(nn.Module):
 
-    def __init__(self, structure=[1, 10, 10, 1], activation=nn.Tanh()):
+    def __init__(self, structure=[1, 10, 10, 1], activation=nn.ReLU()):
         super(PINN, self).__init__()
         self.structure = structure
         self.activation = activation
@@ -83,18 +83,17 @@ treino_u = tc.load('BurgersEquation/Output/1_PreProcessing/Data/treino_u.pt', ma
 ### ======================================== ###
 
 # Hiperparâmetros
-supervisionado = True
+supervisionado = False
 hidden_layers = 20
-neurons_per_layer = 60
-activation = nn.Tanh()
+neurons_per_layer = 40
 lr = 0.005
 step_size = 500
-gamma = 0.95
-epochs = 1000
+gamma = 0.90
+epochs = 3000
 epochs_log = 250 # A cada quantos epochs o loss é logado
 
 # PINN
-f = PINN(structure=[2] + [neurons_per_layer] * hidden_layers + [1], activation=activation).to(device)
+f = PINN(structure=[2] + [neurons_per_layer] * hidden_layers + [1], activation=nn.ReLU()).to(device)
 optimizer = tc.optim.Adam(f.parameters(), lr=lr)
 scheduler = StepLR(optimizer, step_size=step_size, gamma=gamma)
 
@@ -112,15 +111,13 @@ for epoch in range(epochs+1):
     d2u_dx2 = tc.autograd.grad(du_dx, treino, grad_outputs=tc.ones_like(du_dx), create_graph=True, retain_graph=True)[0][:, 0]
 
     # Losses
-    #loss_dados = tc.mean((u - treino_u)**2) if supervisionado else tc.tensor(0.0)   # Supervisionado
-    #loss_EDP = tc.mean((du_dt + u*du_dx - tc.tensor(0.01/np.pi)*d2u_dx2)**2)        # EDP
-    loss_ci1 = tc.mean((u[:n_ci] - treino_u[:n_ci])**2)                          # u(x,0)
-    loss_ci2 = tc.mean((u[n_ci:2*n_ci] - treino_u[n_ci:2*n_ci])**2)              # u(1,t)
-    loss_ci3 = tc.mean((u[2*n_ci:3*n_ci] - treino_u[2*n_ci:3*n_ci])**2)          # u(-1,t)
+    loss_EDP = tc.mean((du_dt + u*du_dx - tc.tensor(0.01/np.pi)*d2u_dx2)**2)        # EDP
+    loss_dados = tc.mean((u - treino_u)**2) if supervisionado else tc.tensor(0.0)   # Supervisionado
+    loss_EDP = loss_EDP if not supervisionado else tc.tensor(0.0)                   # Supervisionado
+    loss_ci1 = tc.mean((u[:n_ci] - treino_u[:n_ci])**2)                             # u(x,0)
+    loss_ci2 = tc.mean((u[n_ci:2*n_ci] - treino_u[n_ci:2*n_ci])**2)                 # u(1,t)
+    loss_ci3 = tc.mean((u[2*n_ci:3*n_ci] - treino_u[2*n_ci:3*n_ci])**2)             # u(-1,t)
     loss_ci = loss_ci1 + loss_ci2 + loss_ci3
-    loss_EDP = tc.tensor(0.0)
-    #loss_ci = tc.tensor(0.0)
-    loss_dados = tc.tensor(0.0)
     loss = loss_dados + loss_EDP + loss_ci
     
     # Backpropagation
@@ -176,3 +173,5 @@ metadata = {
     'neurons_per_layer': neurons_per_layer,
 }
 tc.save(metadata, 'BurgersEquation/Output/2_Train/Data/metadata.pt')
+
+logger.info('Process Finished.')
