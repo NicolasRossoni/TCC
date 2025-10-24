@@ -30,8 +30,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Garantir precisão float64 em todos os tensores PyTorch
-tc.set_default_dtype(tc.float64)
+# Garantir precisão float32 em todos os tensores PyTorch
+tc.set_default_dtype(tc.float32)
 
 # Detecção de GPU
 device = tc.device('cuda' if tc.cuda.is_available() else 'cpu')
@@ -118,7 +118,7 @@ dt = t_ref[1] - t_ref[0]
 nu = 0.01 / np.pi
 
 # Inicialização da solução na malha regular
-u_ref = np.zeros((nt, nx), dtype=np.float64)
+u_ref = np.zeros((nt, nx), dtype=np.float32)
 u_ref[0, :] = -np.sin(np.pi * x_ref)
 
 # Função RHS de Burgers (diferenças centrais)
@@ -148,7 +148,7 @@ def get_u_tensor(points):
     # scipy espera (t, x)
     pts_np = np.stack([pts_np[:,1], pts_np[:,0]], axis=1)
     u_np = interp(pts_np)
-    return tc.tensor(u_np, dtype=tc.float64, device=points.device).unsqueeze(1)
+    return tc.tensor(u_np, dtype=tc.float32, device=points.device).unsqueeze(1)
 
 treino_u = get_u_tensor(treino)             # u(x,t) -> shape: [3*n_ci + n_treino, 1]
 validacao_u = get_u_tensor(validacao)       # u(x,t) -> shape: [n_validacao, 1]

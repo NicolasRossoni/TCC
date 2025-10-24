@@ -37,8 +37,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Garantir precisão float64 em todos os tensores PyTorch
-tc.set_default_dtype(tc.float64)
+# Garantir precisão float32 em todos os tensores PyTorch
+tc.set_default_dtype(tc.float32)
 
 # Detecção de GPU
 device = tc.device('cuda' if tc.cuda.is_available() else 'cpu')
@@ -87,19 +87,8 @@ t_max = metadata1['t_max']
 metadata2 = tc.load('BurgersEquation/Output/2_Train/Data/metadata.pt')
 hidden_layers = metadata2['hidden_layers']
 neurons_per_layer = metadata2['neurons_per_layer']
-activation_name = metadata2['activation']
 
-# Reconstruir a função de ativação
-if activation_name == 'Tanh':
-    activation = nn.Tanh()
-elif activation_name == 'ReLU':
-    activation = nn.ReLU()
-elif activation_name == 'Sigmoid':
-    activation = nn.Sigmoid()
-else:
-    activation = nn.Tanh()  # Default
-
-f = PINN(structure=[2] + [neurons_per_layer] * hidden_layers + [1], activation=activation).to(device)
+f = PINN(structure=[2] + [neurons_per_layer] * hidden_layers + [1], activation=nn.Tanh()).to(device)
 f.load_state_dict(pinn_state)
 
 ### ======================================== ###
@@ -126,7 +115,7 @@ t_grid_1d = np.linspace(t_min, t_max, nt_grid)
 t_grid, x_grid = np.meshgrid(t_grid_1d, x_grid_1d, indexing='ij')
 
 # Criar tensor de pontos para predição
-pts_grid = tc.tensor(np.stack([x_grid.flatten(), t_grid.flatten()], axis=1), dtype=tc.float64, device=device)
+pts_grid = tc.tensor(np.stack([x_grid.flatten(), t_grid.flatten()], axis=1), dtype=tc.float32, device=device)
 with tc.no_grad():
     u_pred_grid = f(pts_grid).cpu().numpy().reshape(nt_grid, nx_grid)
 
@@ -140,7 +129,7 @@ dt = t_ref[1] - t_ref[0]
 nu = 0.01 / np.pi
 
 # Inicialização da solução na malha regular
-u_ref = np.zeros((nt, nx), dtype=np.float64)
+u_ref = np.zeros((nt, nx), dtype=np.float32)
 u_ref[0, :] = -np.sin(np.pi * x_ref)
 
 # Função RHS de Burgers (diferenças centrais)

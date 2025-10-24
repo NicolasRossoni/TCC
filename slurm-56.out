@@ -6,3 +6,7 @@
 2025-10-24 11:51:04,042 - INFO - Primeiros 3*n_ci pontos são condições de contorno
 2025-10-24 11:51:04,169 - INFO - Predição inicial (CI): min=-0.1648, max=0.1280, mean=-0.0195
 2025-10-24 11:51:04,169 - INFO - Target (CI): min=-0.9999, max=0.9997, mean=0.0001
+Traceback (most recent call last):
+  File "/home/exx/users/nicolas/TCC/BurgersEquation/2_Train.py", line 157, in <module>
+    logger.info(f"Epoch {epoch:5d} - Loss: {loss.item():.6e} (CI1: {loss_ci1.item():.6e}, CI2: {loss_ci2.item():.6e}, CI3: {loss_ci3.item():.6e}) - LR: {lr_atual:.6e} - Time: {end_time - start_time:.2f}s")
+NameError: name 'loss_ci2' is not defined. Did you mean: 'loss_ci1'?
