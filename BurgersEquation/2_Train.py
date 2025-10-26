@@ -43,7 +43,7 @@ if tc.cuda.is_available():
         dummy_tensor = tc.tensor([1.0], device=device)
         _ = dummy_tensor * 2.0  # Simple operation to establish CUDA context
 
-tc.manual_seed(22)
+tc.manual_seed(21)
 
 ### ======================================== ###
 ###            Definindo PINN                ###
@@ -51,21 +51,89 @@ tc.manual_seed(22)
 
 class PINN(nn.Module):
 
-    def __init__(self, structure=[1, 10, 10, 1], activation=nn.ReLU()):
+    def __init__(self, structure=[1, 10, 10, 1], activation=nn.Tanh(), dropout_ratio=0.0):
         super(PINN, self).__init__()
         self.structure = structure
         self.activation = activation
+        self.dropout_ratio = dropout_ratio
         self.hidden_layers = nn.ModuleList()
 
         for i in range(len(structure)-1):
             self.hidden_layers.append(nn.Linear(structure[i], structure[i+1]))
             
+        # Inicialização Xavier/Glorot
+        self._initialize_weights()
+    
+    def _initialize_weights(self):
+        """
+        Inicialização Xavier/Glorot para PINNs
+        Mantém a variância das ativações durante forward e backward pass
+        """
+        for layer in self.hidden_layers:
+            if isinstance(layer, nn.Linear):
+                # Xavier/Glorot normal initialization para tanh
+                nn.init.xavier_normal_(layer.weight)
+                # Inicializar bias com zeros
+                nn.init.zeros_(layer.bias)
+            
     
     def forward(self, x):
-        for layer in self.hidden_layers[:-1]:
-            x = self.activation(layer(x))
-        x = self.hidden_layers[-1](x) # Sem ativação na última camada
+        for i, layer in enumerate(self.hidden_layers[:-1]):
+            x = layer(x)
+            x = self.activation(x)
+            
+            # Aplica dropout personalizado apenas nas camadas ocultas durante treinamento
+            if self.training and self.dropout_ratio > 0.0:
+                # Gera máscara aleatória: 1 para manter, 0 para desativar
+                keep_prob = 1.0 - self.dropout_ratio
+                mask = (tc.rand_like(x) < keep_prob).float()
+                
+                # Aplica máscara e escala pelo keep_prob para compensar neurônios desativados
+                x = x * mask / keep_prob
+                
+        x = self.hidden_layers[-1](x) # Sem ativação e sem dropout na última camada
         return x
+
+### ======================================== ###
+###            Funções Auxiliares            ###
+### ======================================== ###
+
+def random_select(treino, treino_u, ratio, n_ci):
+    """
+    Seleciona uma proporção aleatória dos dados de treino preservando as condições iniciais
+    
+    Args:
+        treino: tensor com dados de entrada
+        treino_u: tensor com dados de saída correspondentes
+        ratio: proporção dos dados após 3*n_ci para selecionar
+        n_ci: número de pontos de condição inicial
+    
+    Returns:
+        partial_treino, partial_treino_u: tensors reduzidos mantendo correlação
+    """
+    # Preserva os primeiros 3*n_ci elementos (condições iniciais)
+    initial_treino = treino[:3*n_ci]
+    initial_treino_u = treino_u[:3*n_ci]
+    
+    # Seleciona aleatoriamente da parte restante
+    remaining_treino = treino[3*n_ci:]
+    remaining_treino_u = treino_u[3*n_ci:]
+    
+    # Número de amostras a selecionar da parte restante
+    n_samples = int(len(remaining_treino) * ratio)
+    
+    # Gera índices aleatórios para manter correlação entre treino e treino_u
+    indices = tc.randperm(len(remaining_treino))[:n_samples]
+    
+    # Seleciona os dados correspondentes
+    selected_treino = remaining_treino[indices]
+    selected_treino_u = remaining_treino_u[indices]
+    
+    # Concatena condições iniciais com dados selecionados
+    partial_treino = tc.cat([initial_treino, selected_treino], dim=0)
+    partial_treino_u = tc.cat([initial_treino_u, selected_treino_u], dim=0)
+    
+    return partial_treino, partial_treino_u
 
 ### ======================================== ###
 ###             Carregando Dados             ###
@@ -84,16 +152,18 @@ treino_u = tc.load('BurgersEquation/Output/1_PreProcessing/Data/treino_u.pt', ma
 
 # Hiperparâmetros
 supervisionado = False
-hidden_layers = 20
-neurons_per_layer = 40
-lr = 0.005
-step_size = 500
-gamma = 0.90
-epochs = 3000
-epochs_log = 250 # A cada quantos epochs o loss é logado
+hidden_layers = 4
+neurons_per_layer = 128
+dataset_ratio = 1.0     # Seleciona parte dos dados de treino aleatoriamente
+dropout_ratio = 0.0     # Proporção de neurônios a desativar durante treinamento
+lr = 0.01
+step_size = 5000
+gamma = 0.95
+epochs = 2000
+epochs_log = 100        # A cada quantos epochs o loss é logado
 
 # PINN
-f = PINN(structure=[2] + [neurons_per_layer] * hidden_layers + [1], activation=nn.ReLU()).to(device)
+f = PINN(structure=[2] + [neurons_per_layer] * hidden_layers + [1], dropout_ratio=dropout_ratio).to(device)
 optimizer = tc.optim.Adam(f.parameters(), lr=lr)
 scheduler = StepLR(optimizer, step_size=step_size, gamma=gamma)
 
@@ -102,21 +172,25 @@ start_time = perf_counter()
 
 # Loop de treino
 for epoch in range(epochs+1):
-    u = f(treino) # inferencia dos dados de treino
+
+    # Selecionando parcialmente e aleatoriamente os dados de treino preservando condições iniciais
+    partial_treino, partial_treino_u = random_select(treino, treino_u, dataset_ratio, n_ci)
+
+    u = f(partial_treino) # inferencia dos dados de treino
 
     # Derivadas Parciais
-    grad_u = tc.autograd.grad(u, treino, grad_outputs=tc.ones_like(u), create_graph=True, retain_graph=True)[0]
+    grad_u = tc.autograd.grad(u, partial_treino, grad_outputs=tc.ones_like(u), create_graph=True, retain_graph=True)[0]
     du_dx = grad_u[:, 0]
     du_dt = grad_u[:, 1]
-    d2u_dx2 = tc.autograd.grad(du_dx, treino, grad_outputs=tc.ones_like(du_dx), create_graph=True, retain_graph=True)[0][:, 0]
+    d2u_dx2 = tc.autograd.grad(du_dx, partial_treino, grad_outputs=tc.ones_like(du_dx), create_graph=True, retain_graph=True)[0][:, 0]
 
     # Losses
     loss_EDP = tc.mean((du_dt + u*du_dx - tc.tensor(0.01/np.pi)*d2u_dx2)**2)        # EDP
-    loss_dados = tc.mean((u - treino_u)**2) if supervisionado else tc.tensor(0.0)   # Supervisionado
+    loss_dados = tc.mean((u - partial_treino_u)**2) if supervisionado else tc.tensor(0.0)   # Supervisionado
     loss_EDP = loss_EDP if not supervisionado else tc.tensor(0.0)                   # Supervisionado
-    loss_ci1 = tc.mean((u[:n_ci] - treino_u[:n_ci])**2)                             # u(x,0)
-    loss_ci2 = tc.mean((u[n_ci:2*n_ci] - treino_u[n_ci:2*n_ci])**2)                 # u(1,t)
-    loss_ci3 = tc.mean((u[2*n_ci:3*n_ci] - treino_u[2*n_ci:3*n_ci])**2)             # u(-1,t)
+    loss_ci1 = tc.mean((u[:n_ci] - partial_treino_u[:n_ci])**2)                             # u(x,0)
+    loss_ci2 = tc.mean((u[n_ci:2*n_ci] - partial_treino_u[n_ci:2*n_ci])**2)                 # u(1,t)
+    loss_ci3 = tc.mean((u[2*n_ci:3*n_ci] - partial_treino_u[2*n_ci:3*n_ci])**2)             # u(-1,t)
     loss_ci = loss_ci1 + loss_ci2 + loss_ci3
     loss = loss_dados + loss_EDP + loss_ci
     

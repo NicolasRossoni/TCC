@@ -52,19 +52,47 @@ tc.manual_seed(21)
 
 class PINN(nn.Module):
 
-    def __init__(self, structure=[1, 10, 10, 1], activation=nn.ReLU()):
+    def __init__(self, structure=[1, 10, 10, 1], activation=nn.Tanh(), dropout_ratio=0.0):
         super(PINN, self).__init__()
         self.structure = structure
         self.activation = activation
+        self.dropout_ratio = dropout_ratio
         self.hidden_layers = nn.ModuleList()
 
         for i in range(len(structure)-1):
             self.hidden_layers.append(nn.Linear(structure[i], structure[i+1]))
+            
+        # Inicialização Xavier/Glorot
+        self._initialize_weights()
+    
+    def _initialize_weights(self):
+        """
+        Inicialização Xavier/Glorot para PINNs
+        Mantém a variância das ativações durante forward e backward pass
+        """
+        for layer in self.hidden_layers:
+            if isinstance(layer, nn.Linear):
+                # Xavier/Glorot normal initialization para tanh
+                nn.init.xavier_normal_(layer.weight)
+                # Inicializar bias com zeros
+                nn.init.zeros_(layer.bias)
+            
     
     def forward(self, x):
-        for layer in self.hidden_layers[:-1]:
-            x = self.activation(layer(x))
-        x = self.hidden_layers[-1](x) # Sem ativação na última camada
+        for i, layer in enumerate(self.hidden_layers[:-1]):
+            x = layer(x)
+            x = self.activation(x)
+            
+            # Aplica dropout personalizado apenas nas camadas ocultas durante treinamento
+            if self.training and self.dropout_ratio > 0.0:
+                # Gera máscara aleatória: 1 para manter, 0 para desativar
+                keep_prob = 1.0 - self.dropout_ratio
+                mask = (tc.rand_like(x) < keep_prob).float()
+                
+                # Aplica máscara e escala pelo keep_prob para compensar neurônios desativados
+                x = x * mask / keep_prob
+                
+        x = self.hidden_layers[-1](x) # Sem ativação e sem dropout na última camada
         return x
 
 ### ======================================== ###
@@ -88,7 +116,7 @@ metadata2 = tc.load('BurgersEquation/Output/2_Train/Data/metadata.pt')
 hidden_layers = metadata2['hidden_layers']
 neurons_per_layer = metadata2['neurons_per_layer']
 
-f = PINN(structure=[2] + [neurons_per_layer] * hidden_layers + [1], activation=nn.ReLU()).to(device)
+f = PINN(structure=[2] + [neurons_per_layer] * hidden_layers + [1], activation=nn.Tanh(), dropout_ratio=0.0).to(device)
 f.load_state_dict(pinn_state)
 
 ### ======================================== ###
@@ -101,6 +129,7 @@ u_comp_ref = validacao_u if comparison == 1 else teste_u
 label_comp = 'Validação' if comparison == 1 else 'Teste'
 
 # Predição da rede
+f.eval()
 with tc.no_grad():
     u_comp_pred = f(pts_comp)
 

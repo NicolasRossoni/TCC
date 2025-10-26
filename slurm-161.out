@@ -1,4 +1,6 @@
 2025-10-26 23:17:27,342 - INFO - Usando dispositivo: cuda
+/home/exx/users/nicolas/venv/lib/python3.10/site-packages/torch/autograd/graph.py:829: UserWarning: Attempting to run cuBLAS, but there was no current CUDA context! Attempting to set the primary context... (Triggered internally at /pytorch/aten/src/ATen/cuda/CublasHandlePool.cpp:179.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
 2025-10-26 23:17:28,457 - INFO - Epoch 0 - Loss: 4.54e-01 - Time: 0.26s
 2025-10-26 23:17:32,365 - INFO - Epoch 100 - Loss: 3.48e-01 - Time: 3.91s
 2025-10-26 23:17:36,276 - INFO - Epoch 200 - Loss: 2.12e-01 - Time: 3.91s
