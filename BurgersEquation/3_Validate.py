@@ -116,7 +116,7 @@ metadata2 = tc.load('BurgersEquation/Output/2_Train/Data/metadata.pt')
 hidden_layers = metadata2['hidden_layers']
 neurons_per_layer = metadata2['neurons_per_layer']
 
-f = PINN(structure=[2] + [neurons_per_layer] * hidden_layers + [1], activation=nn.Tanh(), dropout_ratio=0.0).to(device)
+f = PINN(structure=[2] + [neurons_per_layer] * hidden_layers + [1], dropout_ratio=0.0).to(device)
 f.load_state_dict(pinn_state)
 
 ### ======================================== ###

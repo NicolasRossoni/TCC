@@ -99,10 +99,12 @@ treino = tc.cat([treino_ci, treino_geral]).to(device)  # (x,t) -> shape: [3*n_ci
 treino.requires_grad_(True)
 
 # Pontos (x,t) - validação
-validacao = latin_hypercube(n_validacao).to(device)    # (x,t) -> shape: [n_validacao, 2]
+validacao = latin_hypercube(n_validacao).to(device)     # (x,t) -> shape: [n_validacao, 2]
+validacao.requires_grad_(False)
 
 # Pontos (x,t) - teste
-teste = latin_hypercube(n_teste).to(device)            # (x,t) -> shape: [n_teste, 2]
+teste = latin_hypercube(n_teste).to(device)             # (x,t) -> shape: [n_teste, 2]
+teste.requires_grad_(False)
 
 ### ========================================= ###
 ###   Solução Referencia(validação e teste)   ###

@@ -1,23 +1,23 @@
-2025-10-26 23:17:27,342 - INFO - Usando dispositivo: cuda
-2025-10-26 23:17:28,457 - INFO - Epoch 0 - Loss: 4.54e-01 - Time: 0.26s
-2025-10-26 23:17:32,365 - INFO - Epoch 100 - Loss: 3.48e-01 - Time: 3.91s
-2025-10-26 23:17:36,276 - INFO - Epoch 200 - Loss: 2.12e-01 - Time: 3.91s
-2025-10-26 23:17:40,186 - INFO - Epoch 300 - Loss: 1.95e-01 - Time: 3.91s
-2025-10-26 23:17:44,096 - INFO - Epoch 400 - Loss: 1.94e-01 - Time: 3.91s
-2025-10-26 23:17:48,004 - INFO - Epoch 500 - Loss: 1.94e-01 - Time: 3.91s
-2025-10-26 23:17:51,928 - INFO - Epoch 600 - Loss: 1.93e-01 - Time: 3.92s
-2025-10-26 23:17:55,849 - INFO - Epoch 700 - Loss: 1.93e-01 - Time: 3.92s
-2025-10-26 23:17:59,771 - INFO - Epoch 800 - Loss: 1.93e-01 - Time: 3.92s
-2025-10-26 23:18:03,695 - INFO - Epoch 900 - Loss: 1.93e-01 - Time: 3.92s
-2025-10-26 23:18:07,603 - INFO - Epoch 1000 - Loss: 1.92e-01 - Time: 3.91s
-2025-10-26 23:18:11,509 - INFO - Epoch 1100 - Loss: 1.92e-01 - Time: 3.90s
-2025-10-26 23:18:15,413 - INFO - Epoch 1200 - Loss: 1.92e-01 - Time: 3.90s
-2025-10-26 23:18:19,317 - INFO - Epoch 1300 - Loss: 1.92e-01 - Time: 3.90s
-2025-10-26 23:18:23,219 - INFO - Epoch 1400 - Loss: 1.91e-01 - Time: 3.90s
-2025-10-26 23:18:27,123 - INFO - Epoch 1500 - Loss: 2.10e-01 - Time: 3.90s
-2025-10-26 23:18:31,037 - INFO - Epoch 1600 - Loss: 1.91e-01 - Time: 3.91s
-2025-10-26 23:18:34,954 - INFO - Epoch 1700 - Loss: 1.91e-01 - Time: 3.92s
-2025-10-26 23:18:38,873 - INFO - Epoch 1800 - Loss: 1.90e-01 - Time: 3.92s
-2025-10-26 23:18:42,789 - INFO - Epoch 1900 - Loss: 1.90e-01 - Time: 3.92s
-2025-10-26 23:18:46,707 - INFO - Epoch 2000 - Loss: 1.90e-01 - Time: 3.92s
-2025-10-26 23:18:47,277 - INFO - Process Finished.
+2025-10-27 14:02:01,356 - INFO - Usando dispositivo: cuda
+2025-10-27 14:02:02,458 - INFO - Epoch 0 - Loss: 5.90e-01 - LR: 5.00e-03 - Time: 0.28 s - ETA: 0.1 min
+2025-10-27 14:02:10,671 - INFO - Epoch 1000 - Loss: 7.86e-02 - LR: 4.50e-03 - Time: 8.21 s - ETA: 2.6 min
+2025-10-27 14:02:18,817 - INFO - Epoch 2000 - Loss: 7.78e-02 - LR: 4.05e-03 - Time: 8.14 s - ETA: 2.4 min
+2025-10-27 14:02:26,959 - INFO - Epoch 3000 - Loss: 7.22e-02 - LR: 3.65e-03 - Time: 8.14 s - ETA: 2.3 min
+2025-10-27 14:02:35,131 - INFO - Epoch 4000 - Loss: 7.51e-02 - LR: 3.28e-03 - Time: 8.17 s - ETA: 2.2 min
+2025-10-27 14:02:43,285 - INFO - Epoch 5000 - Loss: 7.02e-02 - LR: 2.95e-03 - Time: 8.15 s - ETA: 2.0 min
+2025-10-27 14:02:51,208 - INFO - Epoch 6000 - Loss: 7.07e-02 - LR: 2.66e-03 - Time: 7.92 s - ETA: 1.8 min
+2025-10-27 14:02:57,032 - INFO - Epoch 7000 - Loss: 7.11e-02 - LR: 2.39e-03 - Time: 5.82 s - ETA: 1.3 min
+2025-10-27 14:03:02,917 - INFO - Epoch 8000 - Loss: 7.39e-02 - LR: 2.15e-03 - Time: 5.88 s - ETA: 1.2 min
+2025-10-27 14:03:08,770 - INFO - Epoch 9000 - Loss: 7.19e-02 - LR: 1.94e-03 - Time: 5.85 s - ETA: 1.1 min
+2025-10-27 14:03:14,530 - INFO - Epoch 10000 - Loss: 7.32e-02 - LR: 1.74e-03 - Time: 5.76 s - ETA: 1.0 min
+2025-10-27 14:03:20,312 - INFO - Epoch 11000 - Loss: 7.16e-02 - LR: 1.57e-03 - Time: 5.78 s - ETA: 0.9 min
+2025-10-27 14:03:26,075 - INFO - Epoch 12000 - Loss: 7.16e-02 - LR: 1.41e-03 - Time: 5.76 s - ETA: 0.8 min
+2025-10-27 14:03:31,746 - INFO - Epoch 13000 - Loss: 7.31e-02 - LR: 1.27e-03 - Time: 5.67 s - ETA: 0.7 min
+2025-10-27 14:03:37,458 - INFO - Epoch 14000 - Loss: 6.96e-02 - LR: 1.14e-03 - Time: 5.71 s - ETA: 0.6 min
+2025-10-27 14:03:43,114 - INFO - Epoch 15000 - Loss: 7.12e-02 - LR: 1.03e-03 - Time: 5.66 s - ETA: 0.5 min
+2025-10-27 14:03:48,848 - INFO - Epoch 16000 - Loss: 7.04e-02 - LR: 9.27e-04 - Time: 5.73 s - ETA: 0.4 min
+2025-10-27 14:03:54,545 - INFO - Epoch 17000 - Loss: 6.99e-02 - LR: 8.34e-04 - Time: 5.70 s - ETA: 0.3 min
+2025-10-27 14:04:00,220 - INFO - Epoch 18000 - Loss: 6.71e-02 - LR: 7.50e-04 - Time: 5.67 s - ETA: 0.2 min
+2025-10-27 14:04:05,883 - INFO - Epoch 19000 - Loss: 6.93e-02 - LR: 6.75e-04 - Time: 5.66 s - ETA: 0.1 min
+2025-10-27 14:04:11,587 - INFO - Epoch 20000 - Loss: 7.14e-02 - LR: 6.08e-04 - Time: 5.70 s - ETA: 0.0 min
+2025-10-27 14:04:12,316 - INFO - Process Finished.

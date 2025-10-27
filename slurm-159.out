@@ -1,4 +1,0 @@
-  File "/home/exx/users/nicolas/TCC/BurgersEquation/3_Validate.py", line 12
-    from BurgersEquation/2_Train import PINN 
-                          ^
-SyntaxError: invalid decimal literal
