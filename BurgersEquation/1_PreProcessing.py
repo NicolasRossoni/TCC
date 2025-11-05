@@ -45,7 +45,7 @@ t_min, t_max = 0.0, 1.0
 
 # Número de pontos
 n_ci = 200   # Pra cada condição de contorno(teste)
-n = 10000    # Pontos usados no treino, validação e teste
+n = 15000    # Pontos usados no treino, validação e teste
 
 distribution = [0.6, 0.2, 0.2] # Distribuição entre treino, validação e teste
 

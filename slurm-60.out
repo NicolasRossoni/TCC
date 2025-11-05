@@ -1,0 +1,62 @@
+2025-11-05 23:11:08,510 - INFO - Usando dispositivo: cuda
+/home/exx/users/nicolas/venv/lib/python3.10/site-packages/torch/autograd/graph.py:829: UserWarning: Attempting to run cuBLAS, but there was no current CUDA context! Attempting to set the primary context... (Triggered internally at /pytorch/aten/src/ATen/cuda/CublasHandlePool.cpp:179.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+2025-11-05 23:11:09,840 - INFO - Epoch 0 - Loss: 1.00e+01 - LR: 5.00e-03 - Time: 0.25 s - ETA: 0.1 min
+2025-11-05 23:11:18,954 - INFO - Epoch 1000 - Loss: 9.13e-02 - LR: 3.20e-03 - Time: 9.11 s - ETA: 2.1 min
+2025-11-05 23:11:26,717 - INFO - Epoch 2000 - Loss: 8.58e-02 - LR: 2.05e-03 - Time: 7.76 s - ETA: 1.7 min
+2025-11-05 23:11:33,619 - INFO - Epoch 3000 - Loss: 8.81e-02 - LR: 1.31e-03 - Time: 6.90 s - ETA: 1.4 min
+2025-11-05 23:11:40,499 - INFO - Epoch 4000 - Loss: 8.95e-02 - LR: 8.39e-04 - Time: 6.88 s - ETA: 1.3 min
+2025-11-05 23:11:48,319 - INFO - Epoch 5000 - Loss: 8.79e-02 - LR: 5.37e-04 - Time: 7.82 s - ETA: 1.3 min
+2025-11-05 23:11:56,431 - INFO - Epoch 6000 - Loss: 8.84e-02 - LR: 3.44e-04 - Time: 8.11 s - ETA: 1.2 min
+2025-11-05 23:12:04,636 - INFO - Epoch 7000 - Loss: 8.80e-02 - LR: 2.20e-04 - Time: 8.20 s - ETA: 1.1 min
+2025-11-05 23:12:12,763 - INFO - Epoch 8000 - Loss: 8.94e-02 - LR: 1.41e-04 - Time: 8.13 s - ETA: 0.9 min
+2025-11-05 23:12:20,948 - INFO - Epoch 9000 - Loss: 8.97e-02 - LR: 9.01e-05 - Time: 8.18 s - ETA: 0.8 min
+2025-11-05 23:12:29,057 - INFO - Epoch 10000 - Loss: 9.00e-02 - LR: 5.76e-05 - Time: 8.11 s - ETA: 0.7 min
+2025-11-05 23:12:37,228 - INFO - Epoch 11000 - Loss: 8.89e-02 - LR: 3.69e-05 - Time: 8.17 s - ETA: 0.5 min
+2025-11-05 23:12:45,351 - INFO - Epoch 12000 - Loss: 8.93e-02 - LR: 2.36e-05 - Time: 8.12 s - ETA: 0.4 min
+2025-11-05 23:12:53,507 - INFO - Epoch 13000 - Loss: 9.07e-02 - LR: 1.51e-05 - Time: 8.16 s - ETA: 0.3 min
+2025-11-05 23:13:01,623 - INFO - Epoch 14000 - Loss: 8.82e-02 - LR: 9.67e-06 - Time: 8.12 s - ETA: 0.1 min
+2025-11-05 23:13:09,793 - INFO - Epoch 15000 - Loss: 9.07e-02 - LR: 6.19e-06 - Time: 8.17 s - ETA: 0.0 min
+2025-11-05 23:13:09,794 - INFO - Iniciando refinamento com L-BFGS...
+2025-11-05 23:13:10,197 - INFO - L-BFGS Epoch 0 - Loss: 8.57e-02 - Time: 0.40 s - ETA: 0.3 min - Expected Loss: 8.57e-02
+2025-11-05 23:13:14,163 - INFO - L-BFGS Epoch 10 - Loss: 8.25e-02 - Time: 3.97 s - ETA: 3.2 min - Expected Loss: 3.57e-02
+2025-11-05 23:13:18,303 - INFO - L-BFGS Epoch 20 - Loss: 8.21e-02 - Time: 4.14 s - ETA: 3.3 min - Expected Loss: 4.86e-02
+2025-11-05 23:13:22,352 - INFO - L-BFGS Epoch 30 - Loss: 8.18e-02 - Time: 4.05 s - ETA: 3.2 min - Expected Loss: 5.57e-02
+2025-11-05 23:13:26,424 - INFO - L-BFGS Epoch 40 - Loss: 8.16e-02 - Time: 4.07 s - ETA: 3.1 min - Expected Loss: 6.01e-02
+2025-11-05 23:13:30,431 - INFO - L-BFGS Epoch 50 - Loss: 8.14e-02 - Time: 4.01 s - ETA: 3.0 min - Expected Loss: 6.29e-02
+2025-11-05 23:13:34,493 - INFO - L-BFGS Epoch 60 - Loss: 8.12e-02 - Time: 4.06 s - ETA: 3.0 min - Expected Loss: 7.00e-02
+2025-11-05 23:13:38,531 - INFO - L-BFGS Epoch 70 - Loss: 8.10e-02 - Time: 4.04 s - ETA: 2.9 min - Expected Loss: 7.19e-02
+2025-11-05 23:13:42,567 - INFO - L-BFGS Epoch 80 - Loss: 8.08e-02 - Time: 4.04 s - ETA: 2.8 min - Expected Loss: 7.23e-02
+2025-11-05 23:13:46,572 - INFO - L-BFGS Epoch 90 - Loss: 8.05e-02 - Time: 4.01 s - ETA: 2.7 min - Expected Loss: 7.17e-02
+2025-11-05 23:13:50,666 - INFO - L-BFGS Epoch 100 - Loss: 8.02e-02 - Time: 4.09 s - ETA: 2.7 min - Expected Loss: 7.10e-02
+2025-11-05 23:13:54,674 - INFO - L-BFGS Epoch 110 - Loss: 7.99e-02 - Time: 4.01 s - ETA: 2.6 min - Expected Loss: 7.04e-02
+2025-11-05 23:13:58,772 - INFO - L-BFGS Epoch 120 - Loss: 7.97e-02 - Time: 4.10 s - ETA: 2.6 min - Expected Loss: 6.97e-02
+2025-11-05 23:14:02,783 - INFO - L-BFGS Epoch 130 - Loss: 7.93e-02 - Time: 4.01 s - ETA: 2.5 min - Expected Loss: 6.86e-02
+2025-11-05 23:14:06,877 - INFO - L-BFGS Epoch 140 - Loss: 7.89e-02 - Time: 4.09 s - ETA: 2.5 min - Expected Loss: 6.74e-02
+2025-11-05 23:14:10,912 - INFO - L-BFGS Epoch 150 - Loss: 7.86e-02 - Time: 4.03 s - ETA: 2.4 min - Expected Loss: 6.74e-02
+2025-11-05 23:14:14,956 - INFO - L-BFGS Epoch 160 - Loss: 7.83e-02 - Time: 4.04 s - ETA: 2.3 min - Expected Loss: 6.72e-02
+2025-11-05 23:14:18,896 - INFO - L-BFGS Epoch 170 - Loss: 7.80e-02 - Time: 3.94 s - ETA: 2.2 min - Expected Loss: 6.71e-02
+2025-11-05 23:14:23,028 - INFO - L-BFGS Epoch 180 - Loss: 7.76e-02 - Time: 4.13 s - ETA: 2.2 min - Expected Loss: 6.69e-02
+2025-11-05 23:14:27,096 - INFO - L-BFGS Epoch 190 - Loss: 7.71e-02 - Time: 4.07 s - ETA: 2.1 min - Expected Loss: 6.66e-02
+2025-11-05 23:14:31,136 - INFO - L-BFGS Epoch 200 - Loss: 7.68e-02 - Time: 4.04 s - ETA: 2.0 min - Expected Loss: 6.61e-02
+2025-11-05 23:14:35,209 - INFO - L-BFGS Epoch 210 - Loss: 7.65e-02 - Time: 4.07 s - ETA: 2.0 min - Expected Loss: 6.61e-02
+2025-11-05 23:14:39,342 - INFO - L-BFGS Epoch 220 - Loss: 7.62e-02 - Time: 4.13 s - ETA: 1.9 min - Expected Loss: 6.66e-02
+2025-11-05 23:14:43,386 - INFO - L-BFGS Epoch 230 - Loss: 7.59e-02 - Time: 4.04 s - ETA: 1.8 min - Expected Loss: 6.73e-02
+2025-11-05 23:14:47,420 - INFO - L-BFGS Epoch 240 - Loss: 7.57e-02 - Time: 4.03 s - ETA: 1.7 min - Expected Loss: 6.83e-02
+2025-11-05 23:14:51,496 - INFO - L-BFGS Epoch 250 - Loss: 7.55e-02 - Time: 4.08 s - ETA: 1.7 min - Expected Loss: 6.91e-02
+2025-11-05 23:14:55,630 - INFO - L-BFGS Epoch 260 - Loss: 7.52e-02 - Time: 4.13 s - ETA: 1.7 min - Expected Loss: 6.94e-02
+2025-11-05 23:14:59,666 - INFO - L-BFGS Epoch 270 - Loss: 7.50e-02 - Time: 4.04 s - ETA: 1.5 min - Expected Loss: 6.95e-02
+2025-11-05 23:15:03,742 - INFO - L-BFGS Epoch 280 - Loss: 7.47e-02 - Time: 4.08 s - ETA: 1.5 min - Expected Loss: 6.95e-02
+2025-11-05 23:15:07,751 - INFO - L-BFGS Epoch 290 - Loss: 7.45e-02 - Time: 4.01 s - ETA: 1.4 min - Expected Loss: 6.96e-02
+2025-11-05 23:15:11,873 - INFO - L-BFGS Epoch 300 - Loss: 7.43e-02 - Time: 4.12 s - ETA: 1.4 min - Expected Loss: 7.00e-02
+2025-11-05 23:15:15,909 - INFO - L-BFGS Epoch 310 - Loss: 7.42e-02 - Time: 4.04 s - ETA: 1.3 min - Expected Loss: 7.03e-02
+2025-11-05 23:15:19,960 - INFO - L-BFGS Epoch 320 - Loss: 7.40e-02 - Time: 4.05 s - ETA: 1.2 min - Expected Loss: 7.06e-02
+2025-11-05 23:15:24,101 - INFO - L-BFGS Epoch 330 - Loss: 7.38e-02 - Time: 4.14 s - ETA: 1.2 min - Expected Loss: 7.08e-02
+2025-11-05 23:15:28,222 - INFO - L-BFGS Epoch 340 - Loss: 7.36e-02 - Time: 4.12 s - ETA: 1.1 min - Expected Loss: 7.09e-02
+2025-11-05 23:15:32,271 - INFO - L-BFGS Epoch 350 - Loss: 7.34e-02 - Time: 4.05 s - ETA: 1.0 min - Expected Loss: 7.07e-02
+2025-11-05 23:15:36,299 - INFO - L-BFGS Epoch 360 - Loss: 7.32e-02 - Time: 4.03 s - ETA: 0.9 min - Expected Loss: 7.07e-02
+2025-11-05 23:15:40,433 - INFO - L-BFGS Epoch 370 - Loss: 7.31e-02 - Time: 4.13 s - ETA: 0.9 min - Expected Loss: 7.07e-02
+2025-11-05 23:15:44,484 - INFO - L-BFGS Epoch 380 - Loss: 7.29e-02 - Time: 4.05 s - ETA: 0.8 min - Expected Loss: 7.08e-02
+2025-11-05 23:15:48,591 - INFO - L-BFGS Epoch 390 - Loss: 7.28e-02 - Time: 4.11 s - ETA: 0.8 min - Expected Loss: 7.10e-02
+2025-11-05 23:15:52,664 - INFO - L-BFGS Epoch 400 - Loss: 7.27e-02 - Time: 4.07 s - ETA: 0.7 min - Expected Loss: 7.11e-02
+slurmstepd-sn4622123712: error: *** JOB 60 ON sn4622123712 CANCELLED AT 2025-11-05T23:15:53 ***

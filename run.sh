@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+#SBATCH --mem=8G
+#SBATCH --gpus=1
+
 # Use your virtual environment's python
 # Exemple: sbatch run.sh \$FILE_PATH [cleanup]
 

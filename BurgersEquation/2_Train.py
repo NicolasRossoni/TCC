@@ -66,13 +66,13 @@ class PINN(nn.Module):
     
     def _initialize_weights(self):
         """
-        Inicialização Xavier/Glorot para PINNs
+        Inicialização Kaiming/He para PINNs
         Mantém a variância das ativações durante forward e backward pass
         """
         for layer in self.hidden_layers:
             if isinstance(layer, nn.Linear):
-                # Xavier/Glorot normal initialization para tanh
-                nn.init.xavier_normal_(layer.weight)
+                # Kaiming/He normal initialization
+                nn.init.kaiming_normal_(layer.weight, mode='fan_in', nonlinearity='tanh')
                 # Inicializar bias com zeros
                 nn.init.zeros_(layer.bias)
             
@@ -98,7 +98,7 @@ class PINN(nn.Module):
 ###            Funções Auxiliares            ###
 ### ======================================== ###
 
-def random_select(treino, treino_u, ratio, n_ci):
+def random_select(treino, treino_u, ratio, n_ci, distribution=None):
     """
     Seleciona uma proporção aleatória dos dados de treino preservando as condições iniciais
     
@@ -107,6 +107,7 @@ def random_select(treino, treino_u, ratio, n_ci):
         treino_u: tensor com dados de saída correspondentes
         ratio: proporção dos dados após 3*n_ci para selecionar
         n_ci: número de pontos de condição inicial
+        distribution: distribuição de probabilidades para amostragem (apenas para pontos após 3*n_ci)
     
     Returns:
         partial_treino, partial_treino_u: tensors reduzidos mantendo correlação
@@ -122,8 +123,13 @@ def random_select(treino, treino_u, ratio, n_ci):
     # Número de amostras a selecionar da parte restante
     n_samples = int(len(remaining_treino) * ratio)
     
-    # Gera índices aleatórios para manter correlação entre treino e treino_u
-    indices = tc.randperm(len(remaining_treino))[:n_samples]
+    # Gera índices baseados na distribuição ou uniformemente
+    if distribution is not None:
+        # Amostragem baseada em resíduos
+        indices = tc.multinomial(distribution, n_samples, replacement=False)
+    else:
+        # Amostragem uniforme
+        indices = tc.randperm(len(remaining_treino))[:n_samples]
     
     # Seleciona os dados correspondentes
     selected_treino = remaining_treino[indices]
@@ -151,33 +157,47 @@ treino_u = tc.load('BurgersEquation/Output/1_PreProcessing/Data/treino_u.pt', ma
 ### ======================================== ###
 
 # Hiperparâmetros
-supervisionado = False
+supervisionado = False          # Usa dados de treino para supervisionar a rede
+residual_distribution = True    # Seleciona aleatoriamente dados de treino baseados em resíduos
+causality = True                # Aumentando peso dos tempos mais recentes (causalidade)
+curriculum = False              # Aprende primeiro a ci e depois EDP
+lbfgs_refinement = True         # Refina com L-BFGS após treino com AdamW
 hidden_layers = 4
 neurons_per_layer = 64
 
 lr = 0.005
-step_size = 1000
-gamma = 0.9
-epochs = 20000
-epochs_log = 1000            # A cada quantos epochs o loss é logado
+step_size = 500
+gamma = 0.8
+epochs = 15000
+epochs_log = 1000               # A cada quantos epochs o loss é logado
 
-dataset_ratio = 0.2         # Seleciona parte dos dados de treino aleatoriamente
-dropout_ratio = 0.0         # Proporção de neurônios a desativar durante treinamento
-gradient_clipping = 1.0     # Limite do gradiente
+dataset_ratio = 0.2             # Seleciona parte dos dados de treino aleatoriamente
+dropout_ratio = 0.0             # Proporção de neurônios a desativar durante treinamento
+gradient_clipping = 1.0         # Limite do gradiente
+curriculum_epoch = 3000         # Epoch em que a rede para de priorizar ci, mais que EDPs
+lbfgs_epochs = 5000             # Epochs de refinamento com L-BFGS
+lr_lbfgs = 2.0                  # Learning rate do L-BFGS
+lbfgs_max_iter = 20             # Iterações por step do L-BFGS 
+lbfgs_history_size = 20         # Tamanho do histórico do L-BFGS
+lbfgs_log = 10                  # A cada quantos epochs o loss é logado
 
 # PINN
 f = PINN(structure=[2] + [neurons_per_layer] * hidden_layers + [1], dropout_ratio=dropout_ratio).to(device)
-optimizer = tc.optim.Adam(f.parameters(), lr=lr)
+optimizer = tc.optim.AdamW(f.parameters(), lr=lr)
 scheduler = StepLR(optimizer, step_size=step_size, gamma=gamma)
 
 loss_log = []
 start_time = perf_counter()
 
+# Inicializa distribuição uniforme (apenas para pontos após condições iniciais)
+distribution = None
+update_distribution_every = 100  # Atualiza distribuição a cada N epochs
+
 # Loop de treino
 for epoch in range(epochs+1):
 
     # Selecionando parcialmente e aleatoriamente os dados de treino preservando condições iniciais
-    partial_treino, partial_treino_u = random_select(treino, treino_u, dataset_ratio, n_ci)
+    partial_treino, partial_treino_u = random_select(treino, treino_u, dataset_ratio, n_ci, distribution)
 
     u = f(partial_treino) # inferencia dos dados de treino
 
@@ -188,21 +208,45 @@ for epoch in range(epochs+1):
     d2u_dx2 = tc.autograd.grad(du_dx, partial_treino, grad_outputs=tc.ones_like(du_dx), create_graph=True, retain_graph=True)[0][:, 0]
 
     # Losses
-    loss_EDP = tc.mean((du_dt + u*du_dx - (0.01/np.pi)*d2u_dx2)**2)                         # EDP
+    causal_weight = tc.exp(-partial_treino[:, 1:2]) if causality else tc.tensor(1.0) # Aumentando peso dos tempos mais recentes (causalidade)
+    loss_EDP = tc.mean((du_dt + u*du_dx - (0.01/np.pi)*d2u_dx2)**2 * causal_weight)                         # EDP
     loss_dados = tc.mean((u - partial_treino_u)**2) if supervisionado else tc.tensor(0.0)   # Supervisionado
     loss_EDP = loss_EDP if not supervisionado else tc.tensor(0.0)                           # Não supervisionado
     loss_ci1 = tc.mean((u[:n_ci] - partial_treino_u[:n_ci])**2)                             # u(x,0)
     loss_ci2 = tc.mean((u[n_ci:2*n_ci] - partial_treino_u[n_ci:2*n_ci])**2)                 # u(1,t)
     loss_ci3 = tc.mean((u[2*n_ci:3*n_ci] - partial_treino_u[2*n_ci:3*n_ci])**2)             # u(-1,t)
     loss_ci = loss_ci1 + loss_ci2 + loss_ci3
-    loss = loss_dados + loss_EDP + loss_ci
+    w_edp = min(1, epoch/curriculum_epoch) if curriculum else 1 # Aprende primeiro a ci e depois EDP
+    loss = loss_dados + w_edp*loss_EDP + loss_ci
     
     # Backpropagation
     optimizer.zero_grad()
     loss.backward()
-    tc.nn.utils.clip_grad_norm_(f.parameters(), max_norm=gradient_clipping)
+    # tc.nn.utils.clip_grad_norm_(f.parameters(), gradient_clipping)
     optimizer.step()
     scheduler.step()
+
+    # Atualiza distribuição baseada em resíduos (apenas nos pontos do domínio interior, sem ci)
+    if residual_distribution and epoch % update_distribution_every == 0 and epoch > 0:
+        # Calcula resíduos em todos os pontos do domínio interior (após 3*n_ci)
+        interior_points = treino[3*n_ci:].clone().detach().requires_grad_(True)
+        u_interior = f(interior_points)
+        
+        grad_u_int = tc.autograd.grad(u_interior, interior_points, grad_outputs=tc.ones_like(u_interior), 
+                                     create_graph=True, retain_graph=True)[0]
+        du_dx_int = grad_u_int[:, 0:1]
+        du_dt_int = grad_u_int[:, 1:2]
+        d2u_dx2_int = tc.autograd.grad(du_dx_int, interior_points, grad_outputs=tc.ones_like(du_dx_int), 
+                                      create_graph=False, retain_graph=False)[0][:, 0:1]
+        
+        # Calcula resíduos da EDP e desconecta do grafo
+        with tc.no_grad():
+            residuals = tc.abs(du_dt_int + u_interior*du_dx_int - (0.01/np.pi)*d2u_dx2_int).squeeze()
+            # Suaviza com epsilon para evitar divisão por zero
+            residuals = residuals + 1e-8
+            distribution = residuals / residuals.sum()        
+        # Libera gradientes do tensor temporário
+        interior_points.requires_grad_(False)
     
     # Salvando loss e printando a cada 1000 epochs
     loss_log.append([loss.item(), loss_dados.item(), loss_EDP.item(), loss_ci.item()])
@@ -210,6 +254,59 @@ for epoch in range(epochs+1):
         end_time = perf_counter()
         logger.info(f"Epoch {epoch} - Loss: {loss.item():.2e} - LR: {scheduler.get_last_lr()[0]:.2e} - Time: {end_time - start_time:.2f} s - ETA: {((end_time - start_time)) * (epochs-epoch) / epochs_log / 60:.1f} min")
         start_time = perf_counter()
+
+### ======================================== ###
+###         Refinamento com L-BFGS           ###
+### ======================================== ###
+
+if lbfgs_refinement:
+    logger.info("Iniciando refinamento com L-BFGS...")
+    
+    # Trocar otimizador para L-BFGS
+    optimizer_lbfgs = tc.optim.LBFGS(f.parameters(), 
+                                      lr=lr_lbfgs, 
+                                      max_iter=lbfgs_max_iter, 
+                                      history_size=lbfgs_history_size,
+                                      line_search_fn='strong_wolfe') 
+    
+    # Função closure requerida pelo L-BFGS
+    def closure():
+        optimizer_lbfgs.zero_grad()
+        
+        # Usa dataset COMPLETO (sem mini-batch)
+        u = f(treino)
+        
+        # Derivadas Parciais
+        grad_u = tc.autograd.grad(u, treino, grad_outputs=tc.ones_like(u), create_graph=True, retain_graph=True)[0]
+        du_dx = grad_u[:, 0:1]
+        du_dt = grad_u[:, 1:2]
+        d2u_dx2 = tc.autograd.grad(du_dx, treino, grad_outputs=tc.ones_like(du_dx), create_graph=True, retain_graph=True)[0][:, 0]
+        
+        # Losses
+        loss_EDP = tc.mean((du_dt + u*du_dx - (0.01/np.pi)*d2u_dx2)**2)
+        loss_dados = tc.mean((u - treino_u)**2) if supervisionado else tc.tensor(0.0)
+        loss_EDP = loss_EDP if not supervisionado else tc.tensor(0.0)
+        loss_ci1 = tc.mean((u[:n_ci] - treino_ci_u[:n_ci])**2)
+        loss_ci2 = tc.mean((u[n_ci:2*n_ci] - treino_ci_u[n_ci:2*n_ci])**2)
+        loss_ci3 = tc.mean((u[2*n_ci:3*n_ci] - treino_ci_u[2*n_ci:3*n_ci])**2)
+        loss_ci = loss_ci1 + loss_ci2 + loss_ci3
+        loss = loss_dados + loss_EDP + loss_ci
+        
+        loss.backward()
+        return loss
+    
+    # Loop de refinamento L-BFGS
+    start_time = perf_counter()
+    for epoch_lbfgs in range(lbfgs_epochs):
+        loss = optimizer_lbfgs.step(closure)
+        loss_log.append([loss.item(), 0.0, 0.0, 0.0])  # Log simplificado
+        
+        if epoch_lbfgs % lbfgs_log == 0:
+            end_time = perf_counter()
+            logger.info(f"L-BFGS Epoch {epoch_lbfgs} - Loss: {loss.item():.2e} - Time: {end_time - start_time:.2f} s - ETA: {((end_time - start_time)) * (lbfgs_epochs-epoch_lbfgs) / lbfgs_log / 60:.1f} min - Expected Loss: {(lambda lb: loss.item() + (loss.item() - loss_log[-lb][0]) / lb * (lbfgs_epochs - epoch_lbfgs) if lb > 0 else loss.item())(min(50, epoch_lbfgs)):.2e}")
+            start_time = perf_counter()
+    
+    logger.info(f"Refinamento L-BFGS concluído. Loss final: {loss.item():.2e}")
     
 ### ======================================== ###
 ###               Plotando Loss              ###
