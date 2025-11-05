@@ -27,3 +27,9 @@
 2025-11-05 23:19:11,766 - INFO - L-BFGS Epoch 80 - Loss: 7.83e-02 - Time: 8.38 s - ETA: 68.7 min - Expected Loss: -1.97e-01
 2025-11-05 23:19:19,884 - INFO - L-BFGS Epoch 90 - Loss: 7.77e-02 - Time: 8.12 s - ETA: 66.4 min - Expected Loss: -2.14e-01
 2025-11-05 23:19:28,255 - INFO - L-BFGS Epoch 100 - Loss: 7.70e-02 - Time: 8.37 s - ETA: 68.4 min - Expected Loss: -2.18e-01
+2025-11-05 23:19:36,701 - INFO - L-BFGS Epoch 110 - Loss: 7.65e-02 - Time: 8.44 s - ETA: 68.8 min - Expected Loss: -2.08e-01
+2025-11-05 23:19:44,866 - INFO - L-BFGS Epoch 120 - Loss: 7.60e-02 - Time: 8.16 s - ETA: 66.4 min - Expected Loss: -1.90e-01
+2025-11-05 23:19:53,358 - INFO - L-BFGS Epoch 130 - Loss: 7.57e-02 - Time: 8.49 s - ETA: 68.9 min - Expected Loss: -1.76e-01
+2025-11-05 23:20:01,698 - INFO - L-BFGS Epoch 140 - Loss: 7.53e-02 - Time: 8.34 s - ETA: 67.6 min - Expected Loss: -1.48e-01
+2025-11-05 23:20:10,130 - INFO - L-BFGS Epoch 150 - Loss: 7.48e-02 - Time: 8.43 s - ETA: 68.2 min - Expected Loss: -1.33e-01
+2025-11-05 23:20:18,405 - INFO - L-BFGS Epoch 160 - Loss: 7.43e-02 - Time: 8.27 s - ETA: 66.7 min - Expected Loss: -1.31e-01

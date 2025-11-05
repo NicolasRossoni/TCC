@@ -1,8 +1,0 @@
-2025-11-05 23:04:54,678 - INFO - Usando dispositivo: cuda
-/home/exx/users/nicolas/venv/lib/python3.10/site-packages/torch/autograd/graph.py:829: UserWarning: Attempting to run cuBLAS, but there was no current CUDA context! Attempting to set the primary context... (Triggered internally at /pytorch/aten/src/ATen/cuda/CublasHandlePool.cpp:179.)
-  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
-2025-11-05 23:04:55,759 - INFO - Epoch 0 - Loss: 1.00e+01 - LR: 5.00e-04 - Time: 0.25 s - ETA: 0.1 min
-2025-11-05 23:05:04,838 - INFO - Epoch 1000 - Loss: 1.04e-01 - LR: 5.00e-04 - Time: 9.08 s - ETA: 4.4 min
-2025-11-05 23:05:13,278 - INFO - Epoch 2000 - Loss: 9.59e-02 - LR: 5.00e-04 - Time: 8.44 s - ETA: 3.9 min
-2025-11-05 23:05:19,903 - INFO - Epoch 3000 - Loss: 9.06e-02 - LR: 5.00e-04 - Time: 6.62 s - ETA: 3.0 min
-slurmstepd-sn4622123712: error: *** JOB 58 ON sn4622123712 CANCELLED AT 2025-11-05T23:05:25 ***
