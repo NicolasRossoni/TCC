@@ -1,0 +1,128 @@
+2025-11-06 12:42:28,268 - INFO - Usando dispositivo: cuda
+2025-11-06 12:42:28,268 - INFO - Carregando dados de pré-processamento...
+2025-11-06 12:42:28,446 - INFO - Dataset selecionado: Teste
+2025-11-06 12:42:28,446 - INFO - Buscando modelos salvos...
+2025-11-06 12:42:28,453 - INFO - Encontrados 2401 modelos (epochs: 0 a 120000)
+2025-11-06 12:42:28,453 - INFO - Aplicando distribuição exponencial para selecionar ~25% dos modelos...
+2025-11-06 12:42:28,453 - INFO - Concentração: 70% nos primeiros 10% dos epochs
+2025-11-06 12:42:28,456 - INFO - Selecionados 628 modelos (26.2%)
+2025-11-06 12:42:28,456 - INFO - Epochs selecionados: 0 a 120000
+2025-11-06 12:42:28,456 - INFO - Modelos nos primeiros 10%: 169/628 (26.9%)
+2025-11-06 12:42:28,456 - INFO - Duração por frame: 16ms (exceto último: 1000ms)
+2025-11-06 12:42:28,456 - INFO - Duração total estimada: 11.0s
+2025-11-06 12:42:28,456 - INFO - FPS efetivo: 62.5
+2025-11-06 12:42:28,456 - INFO - Calculando solução de referência...
+2025-11-06 12:42:30,013 - INFO - Gerando 628 imagens...
+2025-11-06 12:42:30,854 - INFO - 1/628 imagens - Tempo: 0s/528s
+2025-11-06 12:42:34,087 - INFO - 6/628 imagens - Tempo: 4s/426s
+2025-11-06 12:42:38,102 - INFO - 12/628 imagens - Tempo: 8s/423s
+2025-11-06 12:42:42,083 - INFO - 18/628 imagens - Tempo: 12s/421s
+2025-11-06 12:42:46,074 - INFO - 24/628 imagens - Tempo: 16s/420s
+2025-11-06 12:42:50,050 - INFO - 30/628 imagens - Tempo: 20s/419s
+2025-11-06 12:42:54,068 - INFO - 36/628 imagens - Tempo: 24s/419s
+2025-11-06 12:42:58,121 - INFO - 42/628 imagens - Tempo: 28s/420s
+2025-11-06 12:43:02,078 - INFO - 48/628 imagens - Tempo: 32s/419s
+2025-11-06 12:43:06,140 - INFO - 54/628 imagens - Tempo: 36s/420s
+2025-11-06 12:43:10,183 - INFO - 60/628 imagens - Tempo: 40s/420s
+2025-11-06 12:43:14,228 - INFO - 66/628 imagens - Tempo: 44s/420s
+2025-11-06 12:43:18,247 - INFO - 72/628 imagens - Tempo: 48s/420s
+2025-11-06 12:43:22,261 - INFO - 78/628 imagens - Tempo: 52s/420s
+2025-11-06 12:43:26,279 - INFO - 84/628 imagens - Tempo: 56s/420s
+2025-11-06 12:43:30,220 - INFO - 90/628 imagens - Tempo: 60s/420s
+2025-11-06 12:43:34,255 - INFO - 96/628 imagens - Tempo: 64s/420s
+2025-11-06 12:43:38,267 - INFO - 102/628 imagens - Tempo: 68s/420s
+2025-11-06 12:43:42,314 - INFO - 108/628 imagens - Tempo: 72s/420s
+2025-11-06 12:43:46,340 - INFO - 114/628 imagens - Tempo: 76s/420s
+2025-11-06 12:43:50,374 - INFO - 120/628 imagens - Tempo: 80s/420s
+2025-11-06 12:43:54,394 - INFO - 126/628 imagens - Tempo: 84s/420s
+2025-11-06 12:43:58,332 - INFO - 132/628 imagens - Tempo: 88s/420s
+2025-11-06 12:44:02,381 - INFO - 138/628 imagens - Tempo: 92s/420s
+2025-11-06 12:44:06,417 - INFO - 144/628 imagens - Tempo: 96s/420s
+2025-11-06 12:44:10,454 - INFO - 150/628 imagens - Tempo: 100s/420s
+2025-11-06 12:44:14,491 - INFO - 156/628 imagens - Tempo: 104s/420s
+2025-11-06 12:44:18,523 - INFO - 162/628 imagens - Tempo: 108s/420s
+2025-11-06 12:44:22,547 - INFO - 168/628 imagens - Tempo: 112s/420s
+2025-11-06 12:44:26,489 - INFO - 174/628 imagens - Tempo: 116s/420s
+2025-11-06 12:44:30,532 - INFO - 180/628 imagens - Tempo: 120s/420s
+2025-11-06 12:44:34,582 - INFO - 186/628 imagens - Tempo: 124s/420s
+2025-11-06 12:44:38,623 - INFO - 192/628 imagens - Tempo: 128s/420s
+2025-11-06 12:44:42,655 - INFO - 198/628 imagens - Tempo: 132s/420s
+2025-11-06 12:44:46,723 - INFO - 204/628 imagens - Tempo: 136s/420s
+2025-11-06 12:44:50,767 - INFO - 210/628 imagens - Tempo: 140s/420s
+2025-11-06 12:44:54,648 - INFO - 216/628 imagens - Tempo: 144s/420s
+2025-11-06 12:44:58,642 - INFO - 222/628 imagens - Tempo: 148s/420s
+2025-11-06 12:45:02,627 - INFO - 228/628 imagens - Tempo: 152s/420s
+2025-11-06 12:45:06,619 - INFO - 234/628 imagens - Tempo: 156s/420s
+2025-11-06 12:45:10,614 - INFO - 240/628 imagens - Tempo: 160s/420s
+2025-11-06 12:45:14,633 - INFO - 246/628 imagens - Tempo: 164s/420s
+2025-11-06 12:45:18,533 - INFO - 252/628 imagens - Tempo: 168s/419s
+2025-11-06 12:45:22,538 - INFO - 258/628 imagens - Tempo: 172s/419s
+2025-11-06 12:45:26,534 - INFO - 264/628 imagens - Tempo: 176s/419s
+2025-11-06 12:45:30,542 - INFO - 270/628 imagens - Tempo: 180s/419s
+2025-11-06 12:45:34,535 - INFO - 276/628 imagens - Tempo: 184s/419s
+2025-11-06 12:45:38,533 - INFO - 282/628 imagens - Tempo: 188s/419s
+2025-11-06 12:45:42,539 - INFO - 288/628 imagens - Tempo: 192s/419s
+2025-11-06 12:45:46,458 - INFO - 294/628 imagens - Tempo: 196s/419s
+2025-11-06 12:45:50,467 - INFO - 300/628 imagens - Tempo: 200s/419s
+2025-11-06 12:45:54,466 - INFO - 306/628 imagens - Tempo: 204s/419s
+2025-11-06 12:45:58,490 - INFO - 312/628 imagens - Tempo: 208s/419s
+2025-11-06 12:46:02,513 - INFO - 318/628 imagens - Tempo: 212s/419s
+2025-11-06 12:46:06,530 - INFO - 324/628 imagens - Tempo: 216s/419s
+2025-11-06 12:46:10,551 - INFO - 330/628 imagens - Tempo: 220s/419s
+2025-11-06 12:46:14,500 - INFO - 336/628 imagens - Tempo: 224s/419s
+2025-11-06 12:46:18,538 - INFO - 342/628 imagens - Tempo: 228s/419s
+2025-11-06 12:46:22,565 - INFO - 348/628 imagens - Tempo: 232s/419s
+2025-11-06 12:46:26,614 - INFO - 354/628 imagens - Tempo: 236s/419s
+2025-11-06 12:46:30,638 - INFO - 360/628 imagens - Tempo: 240s/419s
+2025-11-06 12:46:34,682 - INFO - 366/628 imagens - Tempo: 244s/419s
+2025-11-06 12:46:38,726 - INFO - 372/628 imagens - Tempo: 248s/419s
+2025-11-06 12:46:42,689 - INFO - 378/628 imagens - Tempo: 252s/419s
+2025-11-06 12:46:46,736 - INFO - 384/628 imagens - Tempo: 256s/419s
+2025-11-06 12:46:50,771 - INFO - 390/628 imagens - Tempo: 260s/419s
+2025-11-06 12:46:54,830 - INFO - 396/628 imagens - Tempo: 264s/419s
+2025-11-06 12:46:58,889 - INFO - 402/628 imagens - Tempo: 268s/420s
+2025-11-06 12:47:02,944 - INFO - 408/628 imagens - Tempo: 272s/420s
+2025-11-06 12:47:06,993 - INFO - 414/628 imagens - Tempo: 276s/420s
+2025-11-06 12:47:10,963 - INFO - 420/628 imagens - Tempo: 280s/420s
+2025-11-06 12:47:15,013 - INFO - 426/628 imagens - Tempo: 284s/420s
+2025-11-06 12:47:19,058 - INFO - 432/628 imagens - Tempo: 289s/420s
+2025-11-06 12:47:23,111 - INFO - 438/628 imagens - Tempo: 293s/420s
+2025-11-06 12:47:27,166 - INFO - 444/628 imagens - Tempo: 297s/420s
+2025-11-06 12:47:31,220 - INFO - 450/628 imagens - Tempo: 301s/420s
+2025-11-06 12:47:35,268 - INFO - 456/628 imagens - Tempo: 305s/420s
+2025-11-06 12:47:39,226 - INFO - 462/628 imagens - Tempo: 309s/420s
+2025-11-06 12:47:43,291 - INFO - 468/628 imagens - Tempo: 313s/420s
+2025-11-06 12:47:47,347 - INFO - 474/628 imagens - Tempo: 317s/420s
+2025-11-06 12:47:51,402 - INFO - 480/628 imagens - Tempo: 321s/420s
+2025-11-06 12:47:55,453 - INFO - 486/628 imagens - Tempo: 325s/420s
+2025-11-06 12:47:59,515 - INFO - 492/628 imagens - Tempo: 329s/420s
+2025-11-06 12:48:03,564 - INFO - 498/628 imagens - Tempo: 333s/420s
+2025-11-06 12:48:07,537 - INFO - 504/628 imagens - Tempo: 337s/420s
+2025-11-06 12:48:11,596 - INFO - 510/628 imagens - Tempo: 341s/420s
+2025-11-06 12:48:15,658 - INFO - 516/628 imagens - Tempo: 345s/420s
+2025-11-06 12:48:19,718 - INFO - 522/628 imagens - Tempo: 349s/420s
+2025-11-06 12:48:23,775 - INFO - 528/628 imagens - Tempo: 353s/420s
+2025-11-06 12:48:27,862 - INFO - 534/628 imagens - Tempo: 357s/420s
+2025-11-06 12:48:31,837 - INFO - 540/628 imagens - Tempo: 361s/420s
+2025-11-06 12:48:35,889 - INFO - 546/628 imagens - Tempo: 365s/420s
+2025-11-06 12:48:39,961 - INFO - 552/628 imagens - Tempo: 369s/420s
+2025-11-06 12:48:44,033 - INFO - 558/628 imagens - Tempo: 374s/420s
+2025-11-06 12:48:48,095 - INFO - 564/628 imagens - Tempo: 378s/420s
+2025-11-06 12:48:52,147 - INFO - 570/628 imagens - Tempo: 382s/421s
+2025-11-06 12:48:56,214 - INFO - 576/628 imagens - Tempo: 386s/421s
+2025-11-06 12:49:00,183 - INFO - 582/628 imagens - Tempo: 390s/421s
+2025-11-06 12:49:04,249 - INFO - 588/628 imagens - Tempo: 394s/421s
+2025-11-06 12:49:08,304 - INFO - 594/628 imagens - Tempo: 398s/421s
+2025-11-06 12:49:12,392 - INFO - 600/628 imagens - Tempo: 402s/421s
+2025-11-06 12:49:16,457 - INFO - 606/628 imagens - Tempo: 406s/421s
+2025-11-06 12:49:20,515 - INFO - 612/628 imagens - Tempo: 410s/421s
+2025-11-06 12:49:24,575 - INFO - 618/628 imagens - Tempo: 414s/421s
+2025-11-06 12:49:28,562 - INFO - 624/628 imagens - Tempo: 418s/421s
+2025-11-06 12:49:31,331 - INFO - 628/628 imagens - Tempo: 421s/421s
+2025-11-06 12:49:31,331 - INFO - Todas as imagens geradas em 7.02 minutos
+2025-11-06 12:49:31,331 - INFO - Criando GIF a partir das imagens...
+2025-11-06 12:49:49,913 - INFO - GIF salvo em: BurgersEquation/Output/4_GIF/Images/PINN_Evolution_Teste.gif
+2025-11-06 12:49:49,913 - INFO - Total de frames: 628
+2025-11-06 12:49:49,913 - INFO - Duração total do GIF: 11.0 segundos
+2025-11-06 12:49:49,914 - INFO - Imagens preservadas em: BurgersEquation/Output/4_GIF/Temp
+2025-11-06 12:49:49,914 - INFO - Process Finished.

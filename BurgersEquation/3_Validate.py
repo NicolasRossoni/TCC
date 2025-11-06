@@ -14,7 +14,11 @@ import os
 ###            Definindo Comparação          ###
 ### ======================================== ###
 
-comparison = 1  # validacao(1) ou teste(2)
+comparison = 2  # validacao(1) ou teste(2)
+
+epoch = 30000
+model_state_file = f'PINN_state_{epoch}.pt'
+model_state_file = f'PINN_state_final.pt'
 
 ### ======================================== ###
 
@@ -104,7 +108,7 @@ teste = tc.load('BurgersEquation/Output/1_PreProcessing/Data/teste.pt', map_loca
 validacao_u = tc.load('BurgersEquation/Output/1_PreProcessing/Data/validacao_u.pt', map_location=device)
 teste_u = tc.load('BurgersEquation/Output/1_PreProcessing/Data/teste_u.pt', map_location=device)
 
-pinn_state = tc.load('BurgersEquation/Output/2_Train/Data/PINN_state.pt', map_location=device)
+pinn_state = tc.load(f'BurgersEquation/Output/2_Train/Data/{model_state_file}', map_location=device)
 
 metadata1 = tc.load('BurgersEquation/Output/1_PreProcessing/Data/metadata.pt')
 x_min = metadata1['x_min']

@@ -1,0 +1,18 @@
+2025-11-06 13:42:24,232 - INFO - Criando novo GIF a partir das imagens existentes...
+2025-11-06 13:42:24,233 - INFO - Encontradas 628 imagens
+2025-11-06 13:42:24,267 - INFO - Imagens carregadas: 628 frames
+2025-11-06 13:42:24,267 - WARNING - Não foi possível extrair epochs do log. Usando distribuição estimada.
+2025-11-06 13:42:24,267 - INFO - Epochs mapeados: 0 a 119808
+2025-11-06 13:42:24,267 - INFO - Primeira seção: frames 0-27 (epochs 0-5000)
+2025-11-06 13:42:24,267 - INFO - Segunda seção: frames 27-627 (epochs 5000-119808)
+2025-11-06 13:42:24,267 - INFO - Primeira seção: 27 frames × 74ms = 2.0s
+2025-11-06 13:42:24,267 - INFO - Segunda seção: 600 frames × 21ms = 12.6s
+2025-11-06 13:42:24,267 - INFO - Último frame: 4000ms = 4.0s
+2025-11-06 13:42:24,267 - INFO - Duração total calculada: 18.60s
+2025-11-06 13:42:24,267 - INFO - Salvando novo GIF...
+2025-11-06 13:42:42,900 - INFO - ✅ GIF salvo em: BurgersEquation/Output/4_GIF/Images/PINN_Evolution_Teste_Fixed.gif
+2025-11-06 13:42:42,901 - INFO - 📊 Total de frames: 628
+2025-11-06 13:42:42,901 - INFO - ⏱️  Duração total: 18.60s
+2025-11-06 13:42:42,901 - INFO - 🎬 FPS primeira seção: 13.5
+2025-11-06 13:42:42,901 - INFO - 🎬 FPS segunda seção: 47.6
+2025-11-06 13:42:42,901 - INFO - Process Finished.
