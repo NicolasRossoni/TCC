@@ -1,0 +1,18 @@
+
+Minhas dúvidas na implementação desse código
+
+=================================================
+1. Quad:
+
+[x1, x2] -> [x1, x2, x1*x2]
+
+Não seria melhor pegar a diagonal superior incluindo a diagonal(ids tal que i <= j):
+
+[x1, x2] -> [x1, x2, x1*x2, x1*x1, x2*x2] 
+
+Pensei isso poruqe no MixFun ele inclui a diagonal principal(ids tal que i == j).
+
+Não sei se é de propósito.
+
+=================================================
+
