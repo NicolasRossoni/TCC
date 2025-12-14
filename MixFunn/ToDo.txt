@@ -1,5 +1,5 @@
-1. Ler o mixfunn.py
-   - No momento estou no forward da ultima classe 
+1. Ler o mixfunn.py ✅
+   - No momento estou no forward da ultima classe
 
 2. Ver quais problemas resolver
    - Criar estrutura de código melhorada e baseada nos que fiz antes

@@ -10,9 +10,26 @@ Não seria melhor pegar a diagonal superior incluindo a diagonal(ids tal que i <
 
 [x1, x2] -> [x1, x2, x1*x2, x1*x1, x2*x2] 
 
-Pensei isso poruqe no MixFun ele inclui a diagonal principal(ids tal que i == j).
+Pensei isso porque no MixFun ele inclui a diagonal principal(ids tal que i == j).
 
 Não sei se é de propósito.
 
 =================================================
+
+
+2. Offset de instabilidade numérica
+
+No Log e no Sqrt, existe um offset de 0.1 e 0.01
+Isso é levado em consideração depois na formula analítica? não afeta a nossa analise?
+
+Exp multiplicado por 0.01
+Isso é pra não explodir? Afeta algo?
+
+Pra problemas diferentes, teriamos que escolher outros valores? 
+
+
+=================================================
+
+
+
 

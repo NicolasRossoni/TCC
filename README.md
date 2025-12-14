@@ -4,6 +4,13 @@ Rodar tudo com "sbatch run.sh {FILE_PATH}"
 
 E encerrar um script com "scancel {job_ID}"
 
+
+## MixFun
+
+### Ref: https://arxiv.org/pdf/2503.22528
+
+### Ref: https://github.com/tiago939/MixFunn/
+
 ## Problmeas resolvidos
 
 ### Equação de Burgers

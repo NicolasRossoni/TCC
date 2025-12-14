@@ -105,7 +105,7 @@ class Quad(nn.Module):
         else:
             L = int(n_in * (n_in - 1) / 2)
             self.linear = nn.Linear(L + n_in, n_out) # Linear + Termos quadráticos
-            self.ids = torch.triu_indices(n_in, n_in, 1) # Indices da diagonal superior
+            self.ids = torch.triu_indices(n_in, n_in, 1) # Indices da diagonal superior (i < j)
 
     def forward(self, x):
         if self.second_order:
@@ -130,8 +130,8 @@ class Mixfun(nn.Module):
     Args:
         n_in: dimensão de entrada
         n_out: dimensão de saída
-        normalization_function: força cada neurônio a escolher uma única função
-        normalization_neuron: força cada neurônio a ter uma função diferente dos outros
+        normalization_function: especializa cada neurônio em uma função (softmax)
+        normalization_neuron: força cada neurônio a ter uma função diferente dos outros, evita redundância
         p_drop: taxa de dropout (False = sem dropout)
         second_order_input: se True, usa neurônios quadráticos na entrada
         second_order_function: se True, usa produtos de segunda ordem entre funções
@@ -185,12 +185,12 @@ class Mixfun(nn.Module):
             self.p_raw = nn.Parameter(torch.randn(n_out, self.F)) # Inicializa aleatoriamente
 
         if normalization_function:
-            self.p_fun = nn.Parameter(torch.ones(n_out, self.F)) # Normaliza funções
+            self.p_fun = nn.Parameter(torch.ones(n_out, self.F)) # Linhas: Neurônios, Colunas: Funções
         else:
             self.p_fun = None
 
-        if normalization_neuron:
-            self.p_neuron = nn.Parameter(torch.ones(n_out, self.F)) # Normaliza neurônios
+        if normalization_neuron: 
+            self.p_neuron = nn.Parameter(torch.ones(n_out, self.F)) # Linhas: Neurônios, Colunas: Funções
         else:
             self.p_neuron = None
 
@@ -221,46 +221,53 @@ class Mixfun(nn.Module):
         Propagação forward da camada MixFun
         
         Args:
-            x: tensor de entrada
+            x: tensor de entrada - shape: [batch, n_in]
         
         Returns:
-            tensor de saída combinando múltiplas funções de ativação
+            tensor de saída combinando múltiplas funções de ativação - shape: [batch, n_out]
         """
         if self.second_order_function:
             # Funções de primeira ordem
-            x1 = self.__project_and_stack(x, self.project1)
+            x1 = self.__project_and_stack(x, self.project1)  # shape: [batch, n_out, L]
 
             # Funções de segunda ordem (produtos entre funções)
-            x2_1 = self.__project_and_stack(x, self.project21)
-            x2_2 = self.__project_and_stack(x, self.project22)
-            x2 = x2_1[:, :, :, None] @ x2_2[:, :, None, :]
-            x2 = x2[:, :, self.ids[0], self.ids[1]]
+            x2_1 = self.__project_and_stack(x, self.project21)  # shape: [batch, n_out, L]
+            x2_2 = self.__project_and_stack(x, self.project22)  # shape: [batch, n_out, L]
+            x2 = x2_1[:, :, :, None] @ x2_2[:, :, None, :]      # shape: [batch, n_out, L, L]
+            x2 = x2[:, :, self.ids[0], self.ids[1]]             # shape: [batch, n_out, L*(L+1)/2]
 
             # Concatena funções de primeira e segunda ordem
-            x = torch.cat((x1, x2), axis=2)
+            x = torch.cat((x1, x2), axis=2)  # shape: [batch, n_out, F] onde F = L + L*(L+1)/2
         else:
             # Apenas funções de primeira ordem
-            x = self.__project_and_stack(x, self.project1)
+            x = self.__project_and_stack(x, self.project1)  # shape: [batch, n_out, L]
 
         # Aplica dropout durante treinamento
         if self.p_drop and self.training:
-            x = self.dropout(x)
+            x = self.dropout(x)  
 
         # Combinação das funções conforme tipo de normalização
         if not (self.normalization_function and self.normalization_neuron):
-            return torch.sum(self.p_raw * x, axis=2)
+            # Modo sem normalização: soma ponderada simples
+            return torch.sum(self.p_raw * x, axis=2)  # shape: [batch, n_out]
 
-        # Normalização por função (softmax sobre funções)
+        # Normalização por função (softmax sobre funções - dim=1)
         if self.normalization_function:
-            p_fun = F.softmax(-self.p_fun / self.temperature, dim=1)
+            p_fun = F.softmax(-self.p_fun / self.temperature, dim=1)  # shape: [n_out, F]
         else:
             p_fun = 1.0
 
-        # Normalização por neurônio (softmax sobre neurônios)
+        # Normalização por neurônio (softmax sobre neurônios - dim=0)
         if self.normalization_neuron:
-            p_neuron = F.softmax(-self.p_neuron / self.temperature, dim=0)
+            p_neuron = F.softmax(-self.p_neuron / self.temperature, dim=0)  # shape: [n_out, F]
         else:
             p_neuron = 1.0
 
-        x = self.amplitude * torch.sum(p_neuron * p_fun * x, axis=2)
+        x = self.amplitude * torch.sum(p_neuron * p_fun * x, axis=2)  # shape: [batch, n_out, F] -> [batch, n_out]
         return x
+
+    def get_equation(self):
+        """
+        Depois vou implementar uma função para extrair a equação que a rede representa
+        """
+        return True
