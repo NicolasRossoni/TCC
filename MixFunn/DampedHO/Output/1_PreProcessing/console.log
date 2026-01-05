@@ -1,0 +1,6 @@
+2025-12-22 18:41:35,038 - INFO - Usando dispositivo: cuda
+2025-12-22 18:41:35,039 - INFO - Parâmetros físicos - M: 1.00 kg, B: 0.60 kg/s, K: 39.48 N/m
+2025-12-22 18:41:35,039 - INFO - Parâmetros derivados - gamma: 0.6000 1/s, omega_0: 6.2832 rad/s
+2025-12-22 18:41:35,039 - INFO - Regime: Subamortecido - omega_d = 6.2760 rad/s
+2025-12-22 18:41:35,239 - INFO - Shapes - Treino: torch.Size([3050, 1]), Validação: torch.Size([1000, 1]), Teste: torch.Size([1000, 1])
+2025-12-22 18:41:35,919 - INFO - Process Finished.
